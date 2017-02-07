@@ -1,1 +1,1 @@
-# Year-2_ComputerGraphics
+# ComputerGraphics
