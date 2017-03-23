@@ -185,7 +185,7 @@ bool AssessmentApp::draw(GLdouble a_deltaTime)
 	// Clear the colorbuffer
 	m_renderer->prepare(m_clearColour);
 
-	// ###############################> START DRAW CODE <#########################################################
+	// =================================> START DRAW CODE <=================================
 	// ++++ Passs One +++++++++
 	// draw objects
 	objectDraw(a_deltaTime);
@@ -199,6 +199,7 @@ bool AssessmentApp::draw(GLdouble a_deltaTime)
 
 
 	// ------------------------- post processing ----------------
+	// don't render cube if not in view
 	if (AABBculling(*m_mirror->aabb())) {
 		m_mirror->draw(*m_camera);
 	}
@@ -206,7 +207,7 @@ bool AssessmentApp::draw(GLdouble a_deltaTime)
 	// draw GUI 
 	ImGui::Render();
 	
-	// ##############################> END DRAW STUFF <###########################################################
+	// =================================>  END DRAW STUFF <=================================
 	// Swap the screen buffers
 	m_display->updateDisplay();
 	return true;
@@ -313,7 +314,7 @@ void AssessmentApp::setupModels()
 	m_duckModel->transform = Maths::createTransormationMatrix(glm::vec3(6.0f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), 0.01f);
 
 	m_plane = new Plane(glm::vec3(0.0f, 0.0f, 0.0f), 20);
-	m_mirror = new Mirror(glm::vec3(0.0f, 2.0f, 1.0f));
+	m_mirror = new Mirror(glm::vec3(0.0f, 1.0f, 1.0f));
 
 	m_cubePosition = glm::vec3(2.0f, 1.0f, 0.5f);
 	m_waterCube = new WaterCube(m_cubePosition);

@@ -11,12 +11,11 @@ Mirror::Mirror(glm::vec3 a_position)
 	m_vColour = glm::vec3(1.0f, 1.0f, 1.0f);
 	m_m4Transform = Maths::createTransormationMatrix(a_position, glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
 	m_mirrorModel = DynamicModels::cube();
-	//m_mirrorModel = DynamicModels::square(1);
 
 	m_testTexture = new Texture("res/textures/dirt.png");
 
 	m_fShininess = 32.0f;
-	m_imageStyle = {false, true, false, false, false, false};
+	m_imageStyle = {false, false, false, true, false, false};
 
 	setupFBO();
 }
