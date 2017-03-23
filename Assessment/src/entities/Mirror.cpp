@@ -16,6 +16,7 @@ Mirror::Mirror(glm::vec3 a_position)
 	m_testTexture = new Texture("res/textures/dirt.png");
 
 	m_fShininess = 32.0f;
+	m_imageStyle = {false, true, false, false, false, false};
 
 	setupFBO();
 }
@@ -53,15 +54,13 @@ void Mirror::draw(Camera & a_camera)
 	m_shaderProgram->uniformMat4("projection", a_camera.projection());
 	m_shaderProgram->uniformMat4("model", m_m4Transform);
 
-	// pass camera position to shader 
-	m_shaderProgram->uniformBool("standard", false);
-	m_shaderProgram->uniformBool("invert", false);
-	m_shaderProgram->uniformBool("greyScale", true);
-	m_shaderProgram->uniformBool("sharpen", false);
-	m_shaderProgram->uniformBool("blur", false);
-	m_shaderProgram->uniformBool("edgeDetection", true);
-
-
+	// adjustment styles
+	m_shaderProgram->uniformBool("standard", m_imageStyle.default);
+	m_shaderProgram->uniformBool("invert", m_imageStyle.invert);
+	m_shaderProgram->uniformBool("greyScale", m_imageStyle.greyScale);
+	m_shaderProgram->uniformBool("sharpen", m_imageStyle.sharpen);
+	m_shaderProgram->uniformBool("blur", m_imageStyle.blur);
+	m_shaderProgram->uniformBool("edgeDetection", m_imageStyle.edgeDetect);
 
 	// Draw Screen
 	glBindTexture(GL_TEXTURE_2D, m_TBO);	

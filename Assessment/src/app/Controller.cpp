@@ -40,7 +40,6 @@ void Controller::keyCallback(GLFWwindow * a_window, int a_key, int a_scanCode, i
 	}
 	else if (a_action == GLFW_RELEASE) {
 		m_bKeys[a_key] = false;
-		std::cout << "released key" << std::endl;
 	}
 	// toggle wireframe
 	if (a_key == GLFW_KEY_L && a_action == GLFW_PRESS)

@@ -20,6 +20,7 @@
 #include "Square.h"
 #include "Plane.h"
 #include "Mirror.h"
+#include "WaterCube.h"
 // controllers
 #include "UIController.h"
 // conlisions
@@ -41,13 +42,13 @@ public:
 
 private:
 	// private functions
+	void objectDraw(GLdouble a_deltaTime);
 	void setupLights();
 	void setupModels();
 	void setupGUI();
 	void debugGUI();
 	bool culling();
 	bool AABBculling(AABB & a_box);
-
 
 	// display
 	DisplayManager *	m_display = nullptr;
@@ -56,7 +57,6 @@ private:
 	Camera *			m_camera = nullptr;
 	CameraController *	m_cameraController = nullptr;
 	UIController *		m_uiController = nullptr;
-
 
 	// shaders
 	LightShader * m_lightSP = nullptr;
@@ -86,6 +86,8 @@ private:
 	Square * m_square = nullptr;
 	Plane * m_plane = nullptr;
 	Mirror * m_mirror = nullptr;
+	WaterCube * m_waterCube = nullptr;
+	glm::vec3 m_cubePosition;
 
 	// particles
 	ParticleEmitter * m_emitter = nullptr;
@@ -105,6 +107,11 @@ private:
 
 	// GUI
 	glm::vec4 m_clearColour;
+	static bool m_blur;
+	static bool m_invert;
+	static bool m_greyScale;
+	static bool m_sharpen;
+	static bool m_edgeDetect;
 
 	// collisions
 	glm::vec4		 m_vPlanes[6];

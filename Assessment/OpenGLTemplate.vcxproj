@@ -187,6 +187,7 @@
     <ClCompile Include="src\entities\SceneLights.cpp" />
     <ClCompile Include="src\entities\Square.cpp" />
     <ClCompile Include="src\entities\Terrain.cpp" />
+    <ClCompile Include="src\entities\WaterCube.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\models\AnimatedModel.cpp" />
     <ClCompile Include="src\models\DynamicModels.cpp" />
@@ -223,7 +224,6 @@
     <ClCompile Include="src\tests\PostProApp.cpp" />
     <ClCompile Include="src\tests\ProceeduralApp.cpp" />
     <ClCompile Include="src\tests\TerrainApp.cpp" />
-    <ClCompile Include="src\tests\tests.cpp" />
     <ClCompile Include="src\textures\ModelTexture.cpp" />
     <ClCompile Include="src\textures\Texture.cpp" />
     <ClCompile Include="src\toolBox\Maths.cpp" />
@@ -246,6 +246,7 @@
     <ClInclude Include="src\entities\SceneLights.h" />
     <ClInclude Include="src\entities\Square.h" />
     <ClInclude Include="src\entities\Terrain.h" />
+    <ClInclude Include="src\entities\WaterCube.h" />
     <ClInclude Include="src\models\AnimatedModel.h" />
     <ClInclude Include="src\models\DynamicModels.h" />
     <ClInclude Include="src\models\Lamp.h" />
@@ -281,7 +282,6 @@
     <ClInclude Include="src\tests\PostProApp.h" />
     <ClInclude Include="src\tests\ProceeduralApp.h" />
     <ClInclude Include="src\tests\TerrainApp.h" />
-    <ClInclude Include="src\tests\tests.h" />
     <ClInclude Include="src\textures\ModelTexture.h" />
     <ClInclude Include="src\textures\Texture.h" />
     <ClInclude Include="src\toolBox\Maths.h" />

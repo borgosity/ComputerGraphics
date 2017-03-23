@@ -39,7 +39,7 @@ ParticleEmitter::~ParticleEmitter()
 void ParticleEmitter::update(GLfloat a_deltaTime, const glm::mat4 & a_cameraTransform)
 {
 	
-	// spwan particles
+	// spawn particles
 	m_fEmitTimer += a_deltaTime;
 	while (m_fEmitTimer > m_fEmitRate)
 	{
@@ -65,7 +65,7 @@ void ParticleEmitter::update(GLfloat a_deltaTime, const glm::mat4 & a_cameraTran
 		else {
 			// move particle
 			particle->position += particle->velocity * a_deltaTime;
-			particle->position.y += 5.0f * a_deltaTime;
+			particle->position.y += 0.2f * a_deltaTime;
 			// size particle
 			particle->size = glm::mix(m_fStartSize, m_fEndSize, particle->lifeTime / particle->lifeSpan);
 			// colour particle

@@ -16,48 +16,33 @@
 #include "DynamicModels.h"
 #include "AABB.h"
 
-struct Styles {
-	bool default;
-	bool blur;
-	bool invert;
-	bool greyScale;
-	bool sharpen;
-	bool edgeDetect;
-};
-
-class Mirror
+class WaterCube
 {
 public:
-	Mirror();
-	Mirror(glm::vec3 a_position);
-	~Mirror();
-	// public functions
-	void bindFBO();
-	void unbindFBO();
-	void draw(Camera & a_camera);
-	// getters, setters
+	WaterCube();
+	WaterCube(glm::vec3 a_position);
+	~WaterCube();
+
+	void draw(ShaderProgram & a_shaderProgram);
 	glm::vec3 position() { return m_vPosition; };
 	glm::vec3 position(glm::vec3 a_position) { m_vPosition = a_position; return m_vPosition; };
 	glm::mat4 transform() { return m_m4Transform; };
 	glm::mat4 transform(glm::mat4 a_transform) { m_m4Transform = a_transform; return m_m4Transform; };
-	AABB * aabb() { return m_mirrorModel->aabb(); };
-	Styles	  m_imageStyle;
+	AABB * aabb() { return m_cubeModel->aabb(); };
 
 private:
-	GLuint m_FBO; // frame buffer
-	GLuint m_TBO; // texture buffer
-	GLuint m_RBO; // render buffer
 
 	glm::vec3		m_vPosition;
 	glm::mat4		m_m4Transform;
 	glm::vec3		m_vColour;
-	RawModel * m_mirrorModel = nullptr;
+	RawModel *		m_cubeModel = nullptr;
 	ShaderProgram * m_shaderProgram = nullptr;
 	GLfloat			m_fShininess;
 
-	Texture * m_testTexture = nullptr;
+	Texture * m_diffuseTexture = nullptr;
+	Texture * m_normalTexture = nullptr;
+	Texture * m_specularTexture = nullptr;
+	Texture * m_emissiveTexture = nullptr;
 
-	void setupFBO();
-	GLuint generateTexture(GLboolean a_depth, GLboolean a_stencil);
 };
 

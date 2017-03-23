@@ -51,7 +51,7 @@ void main()
 	if (invert == 1.0f) {
 		inverted = vec4(vec3(1.0 - texture(screenTexture, fs_in.TexCoord)), 1.0);
 	}
-	if (greyScale == 1.0f && standard == 1.0f) {
+	if (greyScale == 1.0f /*&& standard == 1.0f*/) {
 	    greyed = greyScaleImage(texture(screenTexture, fs_in.TexCoord));
 	}
 	if (sharpen == 1.0f) {
@@ -67,7 +67,7 @@ void main()
 		}
 	}
 	if (standard == 1.0f) {
-		color = texture(screenTexture, fs_in.TexCoord);
+		plain = texture(screenTexture, fs_in.TexCoord);
 	}
 
 	color = plain + edged + blured + sharpened + greyed + inverted;
