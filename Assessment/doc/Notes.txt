@@ -1,0 +1,76 @@
+
+External Tools and Libraries
+-------------------------------
+glew
+glfw
+glm - maths library
+soil - image loading library
+tiny_obj - obj file loading tool
+//sdl2
+
+
+
+Directories
+------------
+- bin: The output executables go here, both for the app and for any tests
+  - Debug
+  - Release
+- build: This folder contains all object files, and is removed on a clean.
+  - Debug
+  - Release
+- doc: Any notes, like my assembly notes and configuration files, are here. 
+- include: All project header files. All necessary third-party header files that do not exist under /usr/local/include are also placed here.
+  - glew
+  - glfw
+  - sdl2
+- lib: Any libs that get compiled by the project, third party or any needed in development. 
+  - glew
+  - glfw
+  - glm
+  - sdl2
+- src: The application and only the application’s source files.
+- test: All test code files.
+
+
+Solution Configuration : Note (ensure your spelling is correct in the properties and file/directories names
+-----------------------
+Configuration
+- General
+Output - $(SolutionDir)bin\$(Configuration)\
+Intermediate- $(SolutionDir)build\$(Configuration)\
+
+C/C++
+- General
+Additional includes - $(SolutionDir)src\
+                    - $(SolutionDir)include\glew\
+                    - $(SolutionDir)include\glfw\
+                    - $(SolutionDir)include\sdl2\
+                    - $(SolutionDir)lib\glm
+		    - $(SolutionDir)lib\soil
+		    - $(SolutionDir)include\tiny_obj
+		    - $(SolutionDir)include\assimp
+Linker
+- Input
+Additional Dependencies //- glew32.lib
+			- glew32s.lib
+                        - glfw3.lib
+			- SOIL.lib
+                        - SDL2.lib
+                        - SDL2main.lib
+                        - SDL2test.lib
+                        - opengl32.lib
+                        - assimp-vc140-mt.lib
+
+Library Directories 
+                   -- x86
+                    - $(SolutionDir)lib\glew\x86
+                    - $(SolutionDir)lib\glfw\x86
+                    - $(SolutionDir)lib\sld2\x86
+                    - $(SolutionDir)lib\glm\
+                    - $(SolutionDir)lib\assimp\x86
+                   -- x64
+                    - $(SolutionDir)lib\glew\x64
+                    - $(SolutionDir)lib\glfw\x64
+                    - $(SolutionDir)lib\sdl2\x64
+                    - $(SolutionDir)lib\glm\
+                    - $(SolutionDir)lib\assimp\x64
