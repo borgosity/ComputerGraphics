@@ -15,7 +15,9 @@ PointLightShader::PointLightShader(ShaderPath a_shaderPath) : ShaderProgram(a_sh
 PointLightShader::~PointLightShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void PointLightShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

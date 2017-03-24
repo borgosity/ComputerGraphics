@@ -15,7 +15,9 @@ SpotLightShader::SpotLightShader(ShaderPath a_shaderPath) : ShaderProgram(a_shad
 SpotLightShader::~SpotLightShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void SpotLightShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

@@ -33,9 +33,9 @@ ParticleEmitter::~ParticleEmitter()
 	glDeleteBuffers(1, &EBO);
 
 }
-///
+/// ***************************************************************************************
 /// Update Particles
-///
+/// ***************************************************************************************
 void ParticleEmitter::update(GLfloat a_deltaTime, const glm::mat4 & a_cameraTransform)
 {
 	
@@ -99,9 +99,9 @@ void ParticleEmitter::update(GLfloat a_deltaTime, const glm::mat4 & a_cameraTran
 
 
 }
-///
+/// ***************************************************************************************
 /// Draw Particles
-///
+/// ***************************************************************************************
 void ParticleEmitter::draw(ShaderProgram & a_shaderProgram)
 {
 
@@ -114,9 +114,9 @@ void ParticleEmitter::draw(ShaderProgram & a_shaderProgram)
 	// draw particles
 	glDrawElements(GL_TRIANGLES, m_uiFirstDead * 6, GL_UNSIGNED_INT, 0);
 }
-///
+/// ***************************************************************************************
 /// Inititalise Particle Emitter
-///
+/// ***************************************************************************************
 void ParticleEmitter::init(GLuint a_maxParticles, GLuint a_emitRate, GLfloat a_lifetimeMin, GLfloat a_lifetimeMax, 
 						   GLfloat a_velocityMin, GLfloat a_velocityMax, GLfloat a_startSize, GLfloat a_endSize, 
 						   const glm::vec4 & a_startColour, const glm::vec4 & a_endColour)
@@ -179,9 +179,9 @@ void ParticleEmitter::init(GLuint a_maxParticles, GLuint a_emitRate, GLfloat a_l
 
 	delete[] indexData;
 }
-///
+/// ***************************************************************************************
 /// Emit Particles
-///
+/// ***************************************************************************************
 void ParticleEmitter::emit()
 {
 	// emit only if there is a dead particle to use
@@ -204,5 +204,4 @@ void ParticleEmitter::emit()
 	particle.velocity.y = (rand() / (float)RAND_MAX) * 2 - 1;
 	particle.velocity.z = (rand() / (float)RAND_MAX) * 2 - 1;
 	particle.velocity = glm::normalize(particle.velocity) * velocity;
-
 }

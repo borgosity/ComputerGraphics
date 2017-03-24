@@ -26,18 +26,24 @@ Mirror::~Mirror()
 	delete m_mirrorModel;
 	m_mirrorModel = nullptr;
 }
-
+/// ***************************************************************************************
+/// Bind FBO
+/// ***************************************************************************************
 void Mirror::bindFBO()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 }
-
+/// ***************************************************************************************
+/// Unbind FBO
+/// ***************************************************************************************
 void Mirror::unbindFBO()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-
+/// ***************************************************************************************
+/// Draw
+/// ***************************************************************************************
 void Mirror::draw(Camera & a_camera)
 {
 	float time = (float)glfwGetTime();
@@ -47,6 +53,7 @@ void Mirror::draw(Camera & a_camera)
 	//glClear(GL_COLOR_BUFFER_BIT);
 	//glDisable(GL_DEPTH_TEST); 	
 
+	// start shader
 	m_shaderProgram->start();
 	m_shaderProgram->uniformMat4("view", a_camera.viewMatrix());
 	// pass camera projection to shader
@@ -64,19 +71,18 @@ void Mirror::draw(Camera & a_camera)
 	// Draw Screen
 	glBindTexture(GL_TEXTURE_2D, m_TBO);	
 	glUniform1i(glGetUniformLocation(m_shaderProgram->ID(), "screenTexture"), 0);
-	
+	// bind VAO
 	glBindVertexArray(m_mirrorModel->vaoID());
 	// draw arrays
-	//glDrawElements(GL_TRIANGLES, m_mirrorModel->vertexCount(), GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, 0, m_mirrorModel->vertexCount());
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// stop shader
 	m_shaderProgram->stop();
 }
-///
-/// Create Buffer Objects
-///
+/// ***************************************************************************************
+/// Create buffer objects
+/// ***************************************************************************************
 void Mirror::setupFBO()
 {
 	// Framebuffer
@@ -101,12 +107,12 @@ void Mirror::setupFBO()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
-///
+/// ***************************************************************************************
 /// Generate Attachment Texture: 
-/// - standard colour texture =  !a_depth && !stencil
-/// - depth texture =  a_depth && !stencil
-/// - stencil texture =  !a_depth && stencil
-///
+/// - standard colour texture	=  !a_depth && !stencil
+/// - depth texture				=  a_depth && !stencil
+/// - stencil texture			=  !a_depth && stencil
+/// ***************************************************************************************
 GLuint Mirror::generateTexture(GLboolean a_depth, GLboolean a_stencil)
 {
 	// What enum to use?

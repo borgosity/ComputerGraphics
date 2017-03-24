@@ -42,20 +42,23 @@ ShaderProgram::ShaderProgram(ShaderPath a_shaderPath)
 ShaderProgram::~ShaderProgram()
 {
 }
-
+/// ***************************************************************************************
 /// start using shader program
+/// ***************************************************************************************
 void ShaderProgram::start()
 {
 	glUseProgram(m_uiProgramID);
 }
-
+/// ***************************************************************************************
 /// stop using shader program
+/// ***************************************************************************************
 void ShaderProgram::stop()
 {
 	glUseProgram(0);
 }
-
+/// ***************************************************************************************
 /// clean up shaders and shader program
+/// ***************************************************************************************
 void ShaderProgram::cleanUp()
 {
 	stop();
@@ -65,39 +68,41 @@ void ShaderProgram::cleanUp()
 	glDeleteShader(m_uiFragmentShaderID);
 	glDeleteProgram(m_uiProgramID);
 }
-
-/// bind attribute to shader program
-/*
-	the below was commented out in favour of attribute binding in shader files
-*/
-//void ShaderProgram::bindAttribute(GLuint a_attribute, const GLchar * a_variableName)
-//{
-//	glBindAttribLocation(m_uiProgramID, a_attribute, a_variableName);
-//}
+/// ***************************************************************************************
+/// Four float unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformVec4(const GLchar * a_uniformName, glm::vec4 & a_values)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
 	glUniform4f(uniformLocation, a_values.x, a_values.y, a_values.z, a_values.w);
 }
-
+/// ***************************************************************************************
+/// Three float unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformVec3(const GLchar * a_uniformName, glm::vec3 & a_values)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
 	glUniform3f(uniformLocation, a_values.x, a_values.y, a_values.z);
 }
-
+/// ***************************************************************************************
+/// Two float unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformVec2(const GLchar * a_uniformName, glm::vec2 & a_values)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
 	glUniform2f(uniformLocation, a_values.x, a_values.y);
 }
-
+/// ***************************************************************************************
+/// Single float unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformFloat(const GLchar * a_uniformName, GLfloat a_value)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
 	glUniform1f(uniformLocation, a_value);
 }
-
+/// ***************************************************************************************
+/// Bool to float unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformBool(const GLchar * a_uniformName, bool a_value)
 {
 	float boolValue = 0;
@@ -105,13 +110,17 @@ void ShaderProgram::uniformBool(const GLchar * a_uniformName, bool a_value)
 	// since there is no bool in gl shader code, we use 1 to denote true and 0 to denote false
 	glUniform1f(uniformLocation, (a_value ? boolValue = 1.0f : boolValue = 0.0f));
 }
-
+/// ***************************************************************************************
+/// Single Int unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformInt(const GLchar * a_uniformName, GLuint a_value)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
 	glUniform1i(uniformLocation, a_value);
 }
-
+/// ***************************************************************************************
+/// Four float vector unifrom function
+/// ***************************************************************************************
 void ShaderProgram::uniformMat4(const GLchar * a_uniformName, glm::mat4 & a_values)
 {
 	GLint uniformLocation = glGetUniformLocation(m_uiProgramID, a_uniformName);
@@ -119,11 +128,11 @@ void ShaderProgram::uniformMat4(const GLchar * a_uniformName, glm::mat4 & a_valu
 	glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(a_values));
 }
 
-
+/// ***************************************************************************************
 /// pull shader code from file
+/// ***************************************************************************************
 std::string & ShaderProgram::readFile(std::string a_filePath)
 {
-	
 	m_spShaderSourceTemp = "";
 	std::string shaderSource;
 	std::ifstream shaderFile;
@@ -152,7 +161,9 @@ std::string & ShaderProgram::readFile(std::string a_filePath)
 
 	return m_spShaderSourceTemp;
 }
-
+/// ***************************************************************************************
+/// pull both shaders code from file
+/// ***************************************************************************************
 void ShaderProgram::readFiles(std::string a_vsFilePath, std::string a_fsFilePath)
 {
 	// error check without failing
@@ -204,7 +215,9 @@ void ShaderProgram::readFiles(std::string a_vsFilePath, std::string a_fsFilePath
 
 }
 
-/// load shader from file
+/// ***************************************************************************************
+/// load shader code from file
+/// ***************************************************************************************
 GLuint ShaderProgram::loadShader(const GLchar * a_shaderSource, GLuint a_shaderType)
 {
 	// Vertex shader
@@ -224,8 +237,9 @@ GLuint ShaderProgram::loadShader(const GLchar * a_shaderSource, GLuint a_shaderT
 	// return ID
 	return shaderID;
 }
-
+/// ***************************************************************************************
 /// link shaders to a shader program
+/// ***************************************************************************************
 void ShaderProgram::linkShaders(GLuint a_vertexShader, GLuint a_fragmentShader)
 {
 	// Link shaders

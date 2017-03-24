@@ -99,7 +99,7 @@ void Terrain::draw(Camera & a_camera)
 void Terrain::setupTerrain()
 {
 
-	DynamicModels::grid(*m_terrainModel, m_uiGridSize, m_uiVertNum);
+	DynamicModels::grid(m_terrainModel, m_uiGridSize, m_uiVertNum);
 
 }
 

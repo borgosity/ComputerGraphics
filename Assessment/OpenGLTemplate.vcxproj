@@ -140,15 +140,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\;$(SolutionDir)include\glew\;$(SolutionDir)include\glfw\;$(SolutionDir)include\sdl2\;$(SolutionDir)lib\glm\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\;$(SolutionDir)src\app;$(SolutionDir)src\entities;$(SolutionDir)src\toolBox;$(SolutionDir)src\particles;$(SolutionDir)src\textures;$(SolutionDir)src\models;$(SolutionDir)src\shaders;$(SolutionDir)src\renderEngine\;$(SolutionDir)include\;$(SolutionDir)include\glew\;$(SolutionDir)include\glfw\;$(SolutionDir)include\tiny_obj;$(SolutionDir)include\soil\;$(SolutionDir)include\assimp\;$(SolutionDir)include\imgui\;$(SolutionDir)include\sdl2\;$(SolutionDir)lib\glm\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;glfw3.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\glm\;$(SolutionDir)lib\glew\x86;$(SolutionDir)lib\glfw\x86;$(SolutionDir)lib\sdl2\x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;SOIL.lib;assimp-vc140-mt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\glm\;$(SolutionDir)lib\glew\x86\;$(SolutionDir)lib\glfw\x86\;$(SolutionDir)lib\soil\x86\;$(SolutionDir)lib\assimp\x86\;$(SolutionDir)lib\sdl2\x86\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -313,8 +313,8 @@
     <None Include="src\shaders\glsl\meshShader.vs" />
     <None Include="src\shaders\glsl\modelShader.fs" />
     <None Include="src\shaders\glsl\modelShader.vs" />
-    <None Include="src\shaders\glsl\paricles\particleShader.fs" />
-    <None Include="src\shaders\glsl\paricles\particleShader.vs" />
+    <None Include="src\shaders\glsl\particles\particleShader.fs" />
+    <None Include="src\shaders\glsl\particles\particleShader.vs" />
     <None Include="src\shaders\glsl\phongShader.fs" />
     <None Include="src\shaders\glsl\phongShader.vs" />
     <None Include="src\shaders\glsl\planeShader.fs" />

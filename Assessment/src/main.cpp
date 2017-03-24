@@ -16,6 +16,7 @@ int main()
 	}
 
 	// delete app when done
+	app->destroy();
 	delete app;
 
 	return 0;

@@ -15,7 +15,9 @@ AnimeShader::AnimeShader(ShaderPath a_shaderPath) : ShaderProgram(a_shaderPath)
 AnimeShader::~AnimeShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void AnimeShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

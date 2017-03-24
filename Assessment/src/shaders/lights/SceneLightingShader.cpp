@@ -15,7 +15,9 @@ SceneLightingShader::SceneLightingShader(ShaderPath a_shaderPath) : ShaderProgra
 SceneLightingShader::~SceneLightingShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void SceneLightingShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

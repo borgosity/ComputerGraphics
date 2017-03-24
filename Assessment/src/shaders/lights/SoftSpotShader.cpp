@@ -15,7 +15,9 @@ SoftSpotShader::SoftSpotShader(ShaderPath a_shaderPath) : ShaderProgram(a_shader
 SoftSpotShader::~SoftSpotShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void SoftSpotShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

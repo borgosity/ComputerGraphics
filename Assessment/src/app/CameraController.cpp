@@ -53,7 +53,7 @@ void CameraController::mouseScroll(Camera & a_camera)
 {
 	// Update Camera Zoom if offset has changed
 	if (m_fScrollYoffset != 0) {
-		a_camera.zoomUpdate(m_fScrollYoffset * 0.025f);
+		a_camera.zoomUpdate(m_fScrollYoffset * 2.5f);
 		m_fScrollYoffset = 0;
 	}
 }

@@ -9,60 +9,11 @@ AssessmentApp::AssessmentApp()
 
 AssessmentApp::~AssessmentApp()
 {
-	// display
-	deallocate(m_display);
-	deallocate(m_loader);
-	deallocate(m_renderer);
-	deallocate(m_camera);
-	deallocate(m_cameraController);
-	deallocate(m_uiController);
 
-	// shaders
-	deallocate(m_lightSP);
-	deallocate(m_pLightSP);
-	deallocate(m_sLightSP);
-	deallocate(m_ssLightSP);
-	deallocate(m_planeSP);
-	deallocate(m_animeSP);
-	deallocate(m_particleSP);
-
-	// textures
-	deallocate(m_whiteTexture);
-	deallocate(m_lightTexture);
-	// models
-	deallocate(m_dragonModel);
-	deallocate(m_handModel);
-	deallocate(m_handAnimated);
-
-	// fbx
-	deallocate(m_duckModel);
-	// raw models
-
-	// textured models
-
-	// entities 
-	deallocate(m_square);
-	deallocate(m_plane);
-	deallocate(m_mirror);
-	deallocate(m_waterCube);
-
-	// particles
-	deallocate(m_emitter);
-
-	// lights
-	deallocate(m_lamp);
-	deallocate(m_light);
-	deallocate(m_pointLamp);
-	deallocate(m_pointLight);
-	deallocate(m_spotLamp);
-	deallocate(m_spotLight);
-	deallocate(m_softSpotLamp);
-	deallocate(m_softSpotLight);
-
-	// collisions
-	deallocate(m_boundingSphere);
 }
-
+/// ***************************************************************************************
+///	Start application by initialising things
+/// ***************************************************************************************
 bool AssessmentApp::start()
 {
 	std::cout << "\n### --> Start AssessmentApp" << std::endl;
@@ -89,7 +40,6 @@ bool AssessmentApp::start()
 	m_pLightSP = new PointLightShader(Shader::pointLight);
 	m_sLightSP = new SpotLightShader(Shader::spotLight);
 	m_ssLightSP = new SoftSpotShader(Shader::spotLight_soft);
-
 	m_planeSP = new ShaderProgram(Shader::planeShader);
 	m_animeSP = new AnimeShader(Shader::animeShader);
 	m_particleSP = new ParticleShader(Shader::particleShader);
@@ -98,16 +48,13 @@ bool AssessmentApp::start()
 	m_loader = new Loader();
 	m_renderer = new Renderer();
 
-	// load textures
-	m_whiteTexture = new Texture("res/textures/white.png");
-	m_lightTexture = new Texture("res/textures/light.png");
-	//-------------------------------- lights ----------------------------------	
-	setupLights();
-
-	//----------------------------------- models ----------------------------
+	// models
 	setupModels();
 
-	// ---------------------------- particles ----------------------------
+	// lights	
+	setupLights();
+
+	// particles
 	GLuint  maxParticles = 1000;
 	GLuint  emitRate = 200;
 	GLfloat lifetimeMin = 0.1f;
@@ -116,29 +63,30 @@ bool AssessmentApp::start()
 	GLfloat velocityMax = 1.0f;
 	GLfloat startSize = 0.15f;
 	GLfloat endSize = 0.001f;
-	const glm::vec4 startColour(0, 0.6, 0, 1);
-	const glm::vec4 endColour(0, 0, 0.6, 1);
-
-	m_emitter = new ParticleEmitter(glm::vec3(3.0f, 0.78f, 0.0f));
+	const glm::vec4 startColour(0, 0.7, 0, 1);
+	const glm::vec4 endColour(0, 0.2, 0, 1);
+	// emitter
+	m_emitter = new ParticleEmitter(glm::vec3(6.0f, 0.78f, 0.5f));
 	m_emitter->init(maxParticles, emitRate, 
 					lifetimeMin, lifetimeMax,
 					velocityMin, velocityMax, 
 					startSize, endSize,
 					startColour, endColour);
-
-	// ------------------------ GUI --------------------------------------
-	m_clearColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	setupGUI();
 	
 	m_particleColour = startColour;
 	m_animeSP->lightPosition(m_emitter->emitterPosition());
 
-	// -------------------------- collisions -------------------------
+	// GUI
+	m_clearColour = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	
+	// collisions/culling
 	Maths::frustrumPlanes(m_camera->projection(), m_camera->viewMatrix(), m_vPlanes);
 	m_boundingSphere = new BoundingSphere(m_mirror->position(), 0.5f);
 	return true;
 }
-
+/// ***************************************************************************************
+///	Application updates
+/// ***************************************************************************************
 bool AssessmentApp::update(GLdouble a_deltaTime)
 {
 	// update ui controller
@@ -152,26 +100,28 @@ bool AssessmentApp::update(GLdouble a_deltaTime)
 		m_cameraController->update(*m_camera, a_deltaTime);
 	}
 
-
 	// update particles
-	m_emitter->startColour(m_particleColour);
+	m_emitter->startColour(m_particleColour); // update required for gui update
 	m_emitter->update((GLfloat)a_deltaTime, m_camera->transform());
-
+	m_emitterPosition = m_emitter->emitterPosition();
 	// update planes and call frustrum culling update
 	Maths::frustrumPlanes(m_camera->projection(), m_camera->viewMatrix(), m_vPlanes);
 	
 	return true;
 }
-
+/// ***************************************************************************************
+///	Application fixed updates
+/// ***************************************************************************************
 bool AssessmentApp::fixedUpdate(GLdouble a_deltaTime)
 {
 	return true;
 }
-
+/// ***************************************************************************************
+///	Draw Application
+/// ***************************************************************************************
 bool AssessmentApp::draw(GLdouble a_deltaTime)
 {
 	GLdouble time = glfwGetTime();
-
 	// bind frame buffer start for post processing
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -197,8 +147,7 @@ bool AssessmentApp::draw(GLdouble a_deltaTime)
 	//draw objects
 	objectDraw(a_deltaTime);
 
-
-	// ------------------------- post processing ----------------
+	// post processing
 	// don't render cube if not in view
 	if (AABBculling(*m_mirror->aabb())) {
 		m_mirror->draw(*m_camera);
@@ -212,7 +161,9 @@ bool AssessmentApp::draw(GLdouble a_deltaTime)
 	m_display->updateDisplay();
 	return true;
 }
-
+/// ***************************************************************************************
+/// Stop Application
+/// ***************************************************************************************
 bool AssessmentApp::stop()
 {
 	// Properly de-allocate all resources once they've outlived their purpose
@@ -221,49 +172,72 @@ bool AssessmentApp::stop()
 	glfwTerminate();
 	return true;
 }
-
+/// ***************************************************************************************
+///	Function for drawing objects so we can repeat draws
+/// ***************************************************************************************
 void AssessmentApp::objectDraw(GLdouble a_deltaTime)
 {
 	GLdouble time = glfwGetTime();
+	// draw light sources
+	m_dragonlamp->draw(*m_camera);
+	m_lucyLamp->draw(*m_camera);
+	m_duckLamp->draw(*m_camera);
+	m_planeLamp->draw(*m_camera);
+	// ------------ PointLight --------------------
+	m_pLightSP->start();
+	m_pLightSP->update(*m_camera, *m_pointLight);
+	m_lucyModel->transform = Maths::createTransormationMatrix(m_lucyPosition, glm::vec3(0.0f, time * 25.0f, 0.0f), 0.2f);
+	m_lucyModel->draw(*m_pLightSP);
+	m_pLightSP->stop();
+	// ------------ SpotLight --------------------
+	m_sLightSP->start();
+	m_sLightSP->update(*m_camera, *m_spotLight);
+	m_dragonModel->transform = Maths::createTransormationMatrix(m_dragonPosition, glm::vec3(0.0f, time * 25.0f, 0.0f), 0.2f);
+	m_dragonModel->draw(*m_sLightSP);
+	m_sLightSP->stop();
+	// ------------ SoftSpotLight --------------------
+	m_ssLightSP->start();
+	m_ssLightSP->update(*m_camera, *m_softSpotLight);
+	m_duckModel->transform = Maths::createTransormationMatrix(m_duckPosition, glm::vec3(0.0f, time * 25.0f, 0.0f), 0.01f);
+	m_duckModel->draw(*m_ssLightSP);
+	m_ssLightSP->stop();
+	// particles
+	m_particleSP->start();
+	m_particleSP->update(*m_camera, *m_softSpotLight);
+	//m_emitter->emitterPosition(glm::vec3(cosf((float)glfwGetTime() * 3.0f) - m_emitterPosition.x, m_emitterPosition.y, m_emitterPosition.z));
+	m_emitter->draw(*m_particleSP);
+	m_particleSP->stop();
 	// hand animation
 	m_animeSP->start();
 	m_animeSP->specularColour(m_particleColour);
-	m_animeSP->lightPosition(m_emitter->emitterPosition());
+	m_animeSP->lightPosition(m_emitter->emitterPosition() - m_handPosition);
 	m_animeSP->update(*m_camera, *m_softSpotLight);
 	m_handAnimated->transform = Maths::createTransormationMatrix(m_handPosition, glm::vec3(0.0f, 0.0f, -90.0f), 2.0f);
 	m_handAnimated->animate(*m_animeSP);
 	m_animeSP->stop();
-	// water cube
-	//m_pLightSP->start();
-	//m_pLightSP->update(*m_camera, *m_softSpotLight);
-	//m_waterCube->transform() = Maths::createTransormationMatrix(m_cubePosition, glm::vec3(45.0f, time * 25.0f, 0.0f), 0.05f);
-	//m_waterCube->draw(*m_pLightSP);
-	//m_pLightSP->stop();
-	// particles
-	m_particleSP->start();
-	m_particleSP->update(*m_camera, *m_softSpotLight);
-	m_emitter->draw(*m_particleSP);
-	m_particleSP->stop();
 	// plane
 	m_plane->draw(*m_camera);
 }
-
+/// ***************************************************************************************
+///	Setup lights for use in application
+/// ***************************************************************************************
 void AssessmentApp::setupLights()
 {
-	m_lamp = new Lamp(glm::vec3(0.0f, 3.0f, 2.0f));
-	m_pointLamp = new Lamp(glm::vec3(0.0f, 5.0f, 0.0f));
-	m_spotLamp = new Lamp(glm::vec3(0.0f, 3.0f, 0.0f));
-	m_softSpotLamp = new Lamp(glm::vec3(0.0f, 5.0f, 1.0f));
+	// setup lamps
+	m_dragonlamp = new Lamp(m_dragonPosition + glm::vec3(-6.0f, 1.5f, 0.0f));
+	m_lucyLamp = new Lamp(m_lucyPosition + glm::vec3(0.0f, 5.0f, 1.0f));
+	m_duckLamp = new Lamp(m_duckPosition + glm::vec3(0.0f, 1.5f, 6.0f));
+	m_planeLamp = new Lamp(m_plane->lightPos());
 	
 	// light shader attributes
-	glm::vec3 lightPosition = m_lamp->position();
+	glm::vec3 lightPosition = m_lucyLamp->position();
 	glm::vec3 lightColour = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 lightDirection = -m_lamp->position();
+	glm::vec3 lightDirection = m_lucyLamp->position();
 	glm::vec3 lightAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
 	glm::vec3 lightDiffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 	glm::vec3 lightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
 	// point light
-	glm::vec3 pLightDirection = -m_pointLamp->position();
+	glm::vec3 pLightDirection = -m_lucyLamp->position();
 	glm::vec3 pLightAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
 	glm::vec3 pLightDiffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 	glm::vec3 pLightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -271,8 +245,8 @@ void AssessmentApp::setupLights()
 	GLfloat	  pLightLinear = 0.22f;
 	GLfloat	  pLightQuadratic = 0.20f;
 	// spot light
-	glm::vec3 sLightPosition = m_spotLamp->position();
-	glm::vec3 sLightDirection = -m_spotLamp->position();
+	glm::vec3 sLightPosition = m_dragonlamp->position();
+	glm::vec3 sLightDirection = -m_dragonlamp->position();
 	glm::vec3 sLightAmbient = glm::vec3(0.1f, 0.1f, 0.1f);
 	glm::vec3 sLightDiffuse = glm::vec3(0.8f, 0.8f, 0.8f);
 	glm::vec3 sLightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -281,8 +255,8 @@ void AssessmentApp::setupLights()
 	GLfloat	  sLightQuadratic = 0.032f;
 	GLfloat   sLightCutOff = glm::cos(glm::radians(12.5f));
 	// soft spot light
-	glm::vec3 ssLightPosition = m_softSpotLamp->position();
-	glm::vec3 ssLightDirection = -m_softSpotLamp->position();
+	glm::vec3 ssLightPosition = m_duckLamp->position();
+	glm::vec3 ssLightDirection = -m_duckLamp->position();
 	glm::vec3 ssLightAmbient = glm::vec3(0.1f, 0.1f, 0.1f);
 	glm::vec3 ssLightDiffuse = glm::vec3(0.8f, 0.8f, 0.8f);
 	glm::vec3 ssLightSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -298,33 +272,38 @@ void AssessmentApp::setupLights()
 	m_softSpotLight = new Light(ssLightPosition, ssLightDirection, ssLightAmbient, ssLightDiffuse, ssLightSpecular, ssLightConstant, ssLightLinear, ssLightQuadratic, ssLightCutOff, ssLightOuterCutOff);
 
 }
-
+/// ***************************************************************************************
+///	Setup models for use in application
+/// ***************************************************************************************
 void AssessmentApp::setupModels()
 {
-	// load models
+	// load obj models
+	// hand
 	m_handAnimated = new AnimatedModel("res/models/hand/hand_00.obj", "res/models/hand/hand_39.obj");
-	m_handPosition = glm::vec3(3.0f, 0.78f, 0.5f);
+	m_handPosition = glm::vec3(6.0f, 0.78f, 1.0f);
 	m_handAnimated->transform = Maths::createTransormationMatrix(m_handPosition, glm::vec3(0.0f, 00.0f, 0.0f), 2.0f);
-
+	// dragon
 	m_dragonModel = new MeshModel("res/models/stanford/Dragon.obj");
-	m_dragonModel->transform = Maths::createTransormationMatrix(glm::vec3(4.5f, -1.75f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.2f);
-	
+	m_dragonPosition = glm::vec3(-6.0f, 0.0f, 0.0f);
+	m_dragonModel->transform = Maths::createTransormationMatrix(m_dragonPosition, glm::vec3(0.0f, 0.0f, 0.0f), 0.2f);
+	// lucy
+	m_lucyPosition = glm::vec3(0.0f, 0.0f, -6.0f);
+	m_lucyModel = new MeshModel("res/models/stanford/Lucy.obj");
+	m_lucyModel->transform = Maths::createTransormationMatrix(m_lucyPosition, glm::vec3(0.0f, 0.0f, 0.0f), 0.05f);
+
 	// fbx models
+	m_duckPosition = glm::vec3(0.0f, 0.0f, 6.0f);
 	m_duckModel = new MeshModel("res/models/fbx/duck/duck_ascii.fbx");
-	m_duckModel->transform = Maths::createTransormationMatrix(glm::vec3(6.0f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), 0.01f);
-
+	m_duckModel->transform = Maths::createTransormationMatrix(m_duckPosition, glm::vec3(0.0f, 180.0f, 0.0f), 0.01f);
+	
+	// dynamic models
 	m_plane = new Plane(glm::vec3(0.0f, 0.0f, 0.0f), 20);
-	m_mirror = new Mirror(glm::vec3(0.0f, 1.0f, 1.0f));
+	m_mirror = new Mirror(glm::vec3(0.0f, 1.0f, 0.0f));
 
-	m_cubePosition = glm::vec3(2.0f, 1.0f, 0.5f);
-	m_waterCube = new WaterCube(m_cubePosition);
-	m_waterCube->transform() = Maths::createTransormationMatrix(m_cubePosition, glm::vec3(0.0f, 0.0f, 0.0f), 0.05f);
 }
-
-void AssessmentApp::setupGUI()
-{
-}
-
+/// ***************************************************************************************
+///	GUI for adjusting in application elements
+/// ***************************************************************************************
 void AssessmentApp::debugGUI()
 {
 	static float f = 0.0f;
@@ -341,7 +320,9 @@ void AssessmentApp::debugGUI()
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 }
-
+/// ***************************************************************************************
+///	Culling function for bounding spheres
+/// ***************************************************************************************
 bool AssessmentApp::culling()
 {
 	bool result = true;
@@ -357,7 +338,9 @@ bool AssessmentApp::culling()
 	}
 	return result;
 }
-
+/// ***************************************************************************************
+///	Culling functions for AABBs
+/// ***************************************************************************************
 bool AssessmentApp::AABBculling(AABB & a_box)
 {
 	bool result = true;
@@ -390,4 +373,54 @@ bool AssessmentApp::AABBculling(AABB & a_box)
 	}
 	return result;
 }
+/// ***************************************************************************************
+///	Destroy all objects function
+/// ***************************************************************************************
+void AssessmentApp::destroy()
+{
+	// display
+	deallocate(m_display);
+	deallocate(m_loader);
+	deallocate(m_renderer);
+	deallocate(m_camera);
+	deallocate(m_cameraController);
+	deallocate(m_uiController);
 
+	// shaders
+	deallocate(m_lightSP);
+	deallocate(m_pLightSP);
+	deallocate(m_sLightSP);
+	deallocate(m_ssLightSP);
+	deallocate(m_planeSP);
+	deallocate(m_animeSP);
+	deallocate(m_particleSP);
+
+	// models
+	deallocate(m_lucyModel);
+	deallocate(m_dragonModel);
+	deallocate(m_handModel);
+	deallocate(m_handAnimated);
+
+	// fbx
+	deallocate(m_duckModel);
+
+	// entities 
+	deallocate(m_plane);
+	deallocate(m_mirror);
+
+	// particles
+	deallocate(m_emitter);
+
+	// lights
+	deallocate(m_dragonlamp);
+	deallocate(m_light);
+	deallocate(m_lucyLamp);
+	deallocate(m_pointLight);
+	deallocate(m_duckLamp);
+	deallocate(m_spotLight);
+	deallocate(m_planeLamp);
+	deallocate(m_softSpotLight);
+
+	// collisions
+	deallocate(m_boundingSphere);
+}

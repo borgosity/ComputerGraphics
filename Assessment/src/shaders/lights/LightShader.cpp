@@ -15,7 +15,9 @@ LightShader::LightShader(ShaderPath a_shaderPath) : ShaderProgram(a_shaderPath)
 LightShader::~LightShader()
 {
 }
-
+/// ***************************************************************************************
+///	Update
+/// ***************************************************************************************
 void LightShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

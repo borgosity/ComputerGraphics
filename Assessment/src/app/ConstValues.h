@@ -14,8 +14,8 @@ const GLint HALFSC_H = SCREEN_H >> 1;
 // display properties
 const GLint		MAX_FPS		= 120;
 const GLfloat	FOV			= 55.0f;
-const GLfloat	FOV_MAX		= FOV +1.5f;
-const GLfloat	FOV_MIN		= FOV -1.5f;
+const GLfloat	FOV_MAX		= FOV +10.0f;
+const GLfloat	FOV_MIN		= FOV -10.0f;
 const GLfloat	NEAR_PLANE	= 0.1f;
 const GLfloat	FAR_PLANE	= 100.0f;
 

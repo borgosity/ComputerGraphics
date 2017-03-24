@@ -15,7 +15,9 @@ ParticleShader::ParticleShader(ShaderPath a_shaderPath) : ShaderProgram(a_shader
 ParticleShader::~ParticleShader()
 {
 }
-
+/// ***************************************************************************************
+/// Update Shader
+/// ***************************************************************************************
 void ParticleShader::update(Camera & a_camera, Light & a_light)
 {
 	// update lighting

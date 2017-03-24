@@ -89,7 +89,7 @@ bool TerrainApp::start()
 	// ============= grid setup =====================
 	// create grid model
 	m_gridModel = new RawModel();
-	DynamicModels::grid(*m_gridModel, 50, 25);
+	DynamicModels::grid(m_gridModel, 50, 25);
 	// water
 	m_waterTexture = new Texture("res/textures/water_0.png");
 	m_waterTM = new TexturedModel(*m_gridModel, *m_waterTexture, *m_waterTexture, m_rippleSP->ID());
@@ -102,7 +102,7 @@ bool TerrainApp::start()
 	//============= obj setup ===========================
 	m_soulSpearRM = new RawModel();
 	//OBJLoader::loadObjModel("res/models/soulspear/soulspear.obj", *m_soulSpearRM, *m_loader);
-	OBJLoader::loadObjModel("res/models/stanford/Buddha.obj", *m_soulSpearRM, *m_loader);
+	OBJLoader::loadObjModel("res/models/stanford/Buddha.obj", m_soulSpearRM, *m_loader);
 	//m_soulSpearTexture = new Texture("res/models/soulspear/soulspear_diffuse.png");
 	//m_soulSpearNormalMap = new Texture("res/models/soulspear/soulspear_specular.png");
 	m_soulSpearTexture = new Texture("res/textures/white.png");
@@ -112,7 +112,7 @@ bool TerrainApp::start()
 	
 	// rubber duck
 	m_duckRM = new RawModel();
-	OBJLoader::loadObjModel("res/models/rubberDuck.obj", *m_duckRM, *m_loader);
+	OBJLoader::loadObjModel("res/models/rubberDuck.obj", m_duckRM, *m_loader);
 	m_duckTexture = new Texture("res/textures/Moon.png");
 	m_duckTM = new TexturedModel(*m_duckRM, *m_duckTexture, *m_waterTexture, m_staticShader->ID());
 	//m_duckTM = new TexturedModel(*m_duckRM, *m_duckTexture, *m_duckTexture, m_modelSP->ID());
@@ -127,7 +127,7 @@ bool TerrainApp::start()
 	//================ normal map test ====================
 
 	m_rocksModel = new RawModel();
-	DynamicModels::squareTBN(*m_rocksModel, 1);
+	DynamicModels::squareTBN(m_rocksModel, 1);
 	m_rocksTexture = new Texture("res/textures/fourShapes/four_diffuse.png");
 	m_rocksNormalMap = new Texture("res/textures/fourShapes/four_normal.png");
 	m_rocksTM = new TexturedModel(*m_rocksModel, *m_rocksTexture, *m_rocksNormalMap, m_modelSP->ID());

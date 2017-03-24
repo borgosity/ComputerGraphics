@@ -68,7 +68,7 @@ OBJLoader::~OBJLoader()
 //	delete[] vertices;
 //}
 
-void OBJLoader::loadObjModel(std::string a_filePath, RawModel & a_rawModel, Loader & a_loader)
+void OBJLoader::loadObjModel(std::string a_filePath, RawModel * a_rawModel, Loader & a_loader)
 {
 	// file loading variables
 	tinyobj::attrib_t attribs;

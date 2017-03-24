@@ -15,8 +15,9 @@ public:
 	DynamicModels();
 	~DynamicModels();
 
-	static void grid(RawModel & a_rawmodel, GLuint a_size, GLuint a_vertCount);
-	static void squareTBN(RawModel & a_rawmodel, GLfloat a_size);
+	static void grid(RawModel * a_rawmodel, GLuint a_size, GLuint a_vertCount);
+	static RawModel * grid(GLuint a_size, GLuint a_vertCount);
+	static void squareTBN(RawModel * a_rawmodel, GLfloat a_size);
 	static RawModel * cube();
 	static RawModel * square(GLfloat a_size);
 

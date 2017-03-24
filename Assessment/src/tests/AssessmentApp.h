@@ -17,10 +17,8 @@
 #include "AnimatedModel.h"
 #include "MeshModel.h"
 #include "Lamp.h"
-#include "Square.h"
 #include "Plane.h"
 #include "Mirror.h"
-#include "WaterCube.h"
 // controllers
 #include "UIController.h"
 // conlisions
@@ -39,13 +37,13 @@ public:
 	bool fixedUpdate(GLdouble a_deltaTime);
 	bool draw(GLdouble a_deltaTime);
 	bool stop();
+	void destroy();
 
 private:
 	// private functions
 	void objectDraw(GLdouble a_deltaTime);
 	void setupLights();
 	void setupModels();
-	void setupGUI();
 	void debugGUI();
 	bool culling();
 	bool AABBculling(AABB & a_box);
@@ -63,43 +61,38 @@ private:
 	PointLightShader * m_pLightSP = nullptr;
 	SpotLightShader * m_sLightSP = nullptr;
 	SoftSpotShader * m_ssLightSP = nullptr;
-
 	AnimeShader * m_animeSP = nullptr;
 	ParticleShader * m_particleSP = nullptr;
-
 	ShaderProgram * m_planeSP = nullptr;
-
-	// textures
-	Texture * m_whiteTexture = nullptr;
-	Texture * m_lightTexture = nullptr;
 
 	// models obj
 	MeshModel * m_dragonModel = nullptr;
+	glm::vec3 m_dragonPosition;
+	MeshModel * m_lucyModel = nullptr;
+	glm::vec3 m_lucyPosition;
 	MeshModel * m_handModel = nullptr;
 	AnimatedModel * m_handAnimated = nullptr;
 	glm::vec3 m_handPosition;
 
 	// models fbx
 	MeshModel * m_duckModel = nullptr;
+	glm::vec3 m_duckPosition;
 
 	// entities 
-	Square * m_square = nullptr;
 	Plane * m_plane = nullptr;
 	Mirror * m_mirror = nullptr;
-	WaterCube * m_waterCube = nullptr;
-	glm::vec3 m_cubePosition;
 
 	// particles
 	ParticleEmitter * m_emitter = nullptr;
 	glm::vec4		m_particleColour;
-	glm::vec4		m_emitterPosition;
+	glm::vec3		m_emitterPosition;
 
-	// lights
-	Lamp *	m_lamp = nullptr;
-	Lamp *	m_pointLamp = nullptr;
-	Lamp *	m_spotLamp = nullptr;
-	Lamp *	m_softSpotLamp = nullptr;
-
+	// lamp objects
+	Lamp *	m_dragonlamp = nullptr;
+	Lamp *	m_lucyLamp = nullptr;
+	Lamp *	m_duckLamp = nullptr;
+	Lamp *	m_planeLamp = nullptr;
+	// light objects
 	Light * m_light = nullptr;
 	Light * m_pointLight = nullptr;
 	Light * m_spotLight = nullptr;
@@ -113,7 +106,7 @@ private:
 	static bool m_sharpen;
 	static bool m_edgeDetect;
 
-	// collisions
+	// collisions/culling
 	glm::vec4		 m_vPlanes[6];
 	BoundingSphere * m_boundingSphere = nullptr;
 

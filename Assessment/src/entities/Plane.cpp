@@ -5,22 +5,20 @@
 Plane::Plane(glm::vec3 a_position, GLuint a_size)
 {
 	m_vPosition = a_position;
+	m_vLightPos = a_position + glm::vec3(0.0f, 5.0f, 0.0f);
 	m_shaderProgram = new ShaderProgram(Shader::planeShader);
 	m_vPlaneColour = glm::vec3(1.0f, 1.0f, 1.0f);
 	// Plane grid
 	m_uiGridSize = a_size;
 	m_uiVertNum = a_size;
 	m_m4Transform = Maths::createTransormationMatrix(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 1.0f);
-	m_planeModel = new RawModel();
-
+	m_planeModel = DynamicModels::grid(m_uiGridSize, m_uiVertNum);
 	// textures
 	m_diffuseTexture = new Texture("res/textures/wood.jpg");
 	m_specularTexture = new Texture("res/textures/dirt.png");
 	m_emissiveTexture = new Texture("res/textures/snow.png");
 	
 	m_fShininess = 32.0f;
-	
-	setupPlane();
 }
 
 
@@ -34,9 +32,7 @@ Plane::~Plane()
 void Plane::draw(Camera & a_camera)
 {
 	float time = (float)glfwGetTime();
-
-	//m_m4Transform = Maths::createWorldTransformMatrix(m_vPosition, glm::vec3(0.0f, time * 15.0f, 0.0f), 1.0f);
-
+	// start shader
 	m_shaderProgram->start();
 	// pass camera position to shader 
 	m_shaderProgram->uniformMat4("view", a_camera.viewMatrix());
@@ -45,11 +41,10 @@ void Plane::draw(Camera & a_camera)
 	// pass transform to shader
 	m_shaderProgram->uniformMat4("model", m_m4Transform);
 	// set lamp object colour
-	m_shaderProgram->uniformVec3("lightPos", glm::vec3(0.0f, 25.0f, 0.0f));
+	m_shaderProgram->uniformVec3("lightPos", m_vLightPos);
 	m_shaderProgram->uniformVec3("viewPos", a_camera.position());
 	m_shaderProgram->uniformBool("blinn", 0);
 	m_shaderProgram->uniformFloat("time", time);
-
 
 	// Bind Textures using texture units
 	glActiveTexture(GL_TEXTURE0);
@@ -68,10 +63,4 @@ void Plane::draw(Camera & a_camera)
 	m_shaderProgram->stop();
 }
 
-void Plane::setupPlane()
-{
-
-	DynamicModels::grid(*m_planeModel, m_uiGridSize, m_uiVertNum);
-
-}
 

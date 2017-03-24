@@ -57,7 +57,7 @@ public:
 	RawModel * loadToVAO(GLfloat a_positions[], int a_posSize, int a_vertexSize, GLuint a_indicies[], int a_indSize);
 	
 	template<typename T>
-	RawModel & loadToVAO(T * a_positions, int a_posSize, int a_vertexSize, GLuint * a_indicies, int a_indSize);
+	RawModel * loadToVAO(T * a_positions, int a_posSize, int a_vertexSize, GLuint * a_indicies, int a_indSize);
 
 	RawModel * loadToVAO(GLfloat a_positions[], int a_posSize, GLuint a_indicies[], int a_indSize);
 	RawModel * loadToVAO(GLfloat a_positions[], int a_pSize, GLfloat a_colours[], int a_cSize, GLfloat a_textures[], int a_tSize, GLuint a_indicies[], int a_iSize);
@@ -113,7 +113,7 @@ private:
 ///													- 3 (p)
 ///
 template<typename T>
-inline RawModel & Loader::loadToVAO(T * a_positions, int a_posSize, int a_vertexSize, GLuint * a_indicies, int a_indSize)
+inline RawModel * Loader::loadToVAO(T * a_positions, int a_posSize, int a_vertexSize, GLuint * a_indicies, int a_indSize)
 {
 	GLuint vaoID = createVAO();					// create and bind VAO
 	createVBO(a_positions, a_posSize);			// create and bind VBOs
@@ -148,7 +148,9 @@ inline RawModel & Loader::loadToVAO(T * a_positions, int a_posSize, int a_vertex
 	// unbind vbo and vao
 	unbind();
 	// return a RawModel object
-	return RawModel(vaoID, vertCount, hasIndices);
+	//RawModel rawModel(vaoID, vertCount, hasIndices);
+
+	return new RawModel(vaoID, vertCount, hasIndices);
 }
 
 template<typename T>

@@ -547,10 +547,10 @@
     <None Include="src\shaders\glsl\animationShader.vs">
       <Filter>Source Files\engine\shaders\glsl</Filter>
     </None>
-    <None Include="src\shaders\glsl\paricles\particleShader.fs">
+    <None Include="src\shaders\glsl\particles\particleShader.fs">
       <Filter>Source Files\engine\shaders\glsl\particles</Filter>
     </None>
-    <None Include="src\shaders\glsl\paricles\particleShader.vs">
+    <None Include="src\shaders\glsl\particles\particleShader.vs">
       <Filter>Source Files\engine\shaders\glsl\particles</Filter>
     </None>
   </ItemGroup>

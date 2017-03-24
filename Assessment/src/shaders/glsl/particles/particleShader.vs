@@ -24,5 +24,5 @@ void main()
 	vs_out.TexCoord = texCoord;
 	vs_out.Colour = colour;
 	    
-	gl_Position = projection * view * /*model * */position;
+	gl_Position = projection * view * position;
 }
